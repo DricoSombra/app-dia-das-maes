@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Colégio Ari de Sá - Dia das Mães</title>
+    <title>Colégio Ari de Sá - Dia da Mãe</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script>
@@ -20,22 +20,24 @@
                     },
                     fontFamily: {
                         sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
-                        cursive: ['"Brush Script MT"', 'cursive', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Fundamentos de Reset e UI */
+        /* Fundamentos de Redefinição e Interface de Utilizador */
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; font-family: system-ui, -apple-system, sans-serif; touch-action: none; }
         
         .viewport-container { position: relative; width: 100vw; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
+        /* * Ajuste crucial para mitigação de Zoom: 
+         * object-fit: cover garante o preenchimento, mas a matriz do vídeo agora terá um campo de visão maior
+         */
         #videoElement { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
         #frameOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill; z-index: 10; pointer-events: none; }
         
-        /* Glassmorphism UI */
+        /* Interface de Vidro Fosco (Glassmorphism) */
         .glass-panel {
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(12px);
@@ -47,7 +49,7 @@
         .top-bar { position: absolute; top: 0; left: 0; width: 100%; padding: 1rem; display: flex; justify-content: space-between; align-items: center; z-index: 20; background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%); }
         .bottom-bar { position: absolute; bottom: 0; left: 0; width: 100%; display: flex; flex-direction: column; z-index: 20; transition: transform 0.3s ease; }
 
-        /* Botão de Captura */
+        /* Obturador Fotográfico */
         .shutter-btn-container { display: flex; justify-content: center; align-items: center; padding: 1.5rem 0; width: 100%; }
         .shutter-btn {
             width: 76px; height: 76px; border-radius: 50%;
@@ -61,7 +63,7 @@
         }
         .shutter-btn:active .shutter-btn-inner { transform: scale(0.85); background-color: #f1f1f1; }
 
-        /* Carrossel */
+        /* Carrossel de Molduras */
         .carousel-container { padding: 1rem 1rem 0 1rem; width: 100%; }
         .frames-scroll {
             display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;
@@ -77,7 +79,7 @@
         }
         .thumb-wrapper.active .frame-thumb { border-color: #FFD700; box-shadow: 0 0 0 2px #0f172a, 0 0 0 4px #FFD700; transform: translateY(-4px); }
 
-        /* Modos e Botões */
+        /* Botões de Ação e Modo de Gestão */
         .action-btn { width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px); color: white; display: flex; justify-content: center; align-items: center; border: 1px solid rgba(255,255,255,0.1); font-size: 1.1rem; cursor: pointer; transition: background 0.2s; }
         .action-btn:active { background: rgba(255, 255, 255, 0.3); }
         
@@ -88,7 +90,7 @@
         .admin-panel { display: none; padding: 0.5rem 1rem; background: rgba(0, 82, 155, 0.95); color: white; font-size: 0.8rem; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.2); }
         .admin-mode .admin-panel { display: flex; }
 
-        /* PREVIEW SCREEN (Heurística de Controle do Usuário) */
+        /* Ecrã de Pré-visualização (Heurística de Controlo) */
         #previewScreen {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000; z-index: 50; display: flex; flex-direction: column;
@@ -110,11 +112,9 @@
 </head>
 <body>
 
-    <!-- REPOSITÓRIO DE MOLDURAS: Abordagem Skeuomorfica/Scrapbook baseada na referência. -->
+    <!-- Repositório de Matrizes Vetoriais (Skeuomorfismo Afetivo) -->
     <div id="svgRepository">
-        
-        <!-- 0. Estilo Scrapbook Festivo (Inspirado na imagem enviada) -->
-        <!-- Borda vermelha/rosa vibrante, texturas simuladas de alto relevo, flores recortadas (SEM VERDE). -->
+        <!-- 0. Estilo Scrapbook (Revisado com Azul, Rosa e Dourado) -->
         <svg id="svg-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
             <defs>
                 <filter id="scrapShadow" x="-10%" y="-10%" width="130%" height="130%">
@@ -123,13 +123,11 @@
                 <filter id="goldGlow">
                     <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#FFD700" flood-opacity="0.6"/>
                 </filter>
-                <!-- Flor Template 1 -->
                 <g id="flower-pink" filter="url(#scrapShadow)">
                     <path d="M0,0 C15,-30 45,-30 60,0 C75,-30 105,-30 120,0 C120,30 60,75 60,75 C60,75 0,30 0,0 Z" fill="#e91e63" transform="translate(-60, -30) scale(0.8)"/>
                     <path d="M0,0 C15,-30 45,-30 60,0 C75,-30 105,-30 120,0 C120,30 60,75 60,75 C60,75 0,30 0,0 Z" fill="#ff4081" transform="translate(-60, -30) scale(0.6) rotate(45)"/>
                     <circle cx="0" cy="10" r="12" fill="#FFD700" />
                 </g>
-                <!-- Flor Template 2 -->
                 <g id="flower-yellow" filter="url(#scrapShadow)">
                     <path d="M0,-40 C30,-40 30,0 0,0 C-30,0 -30,-40 0,-40 Z" fill="#FFD700" transform="rotate(0)"/>
                     <path d="M0,-40 C30,-40 30,0 0,0 C-30,0 -30,-40 0,-40 Z" fill="#FFD700" transform="rotate(72)"/>
@@ -138,34 +136,23 @@
                     <path d="M0,-40 C30,-40 30,0 0,0 C-30,0 -30,-40 0,-40 Z" fill="#FFD700" transform="rotate(288)"/>
                     <circle cx="0" cy="0" r="15" fill="#e91e63" />
                 </g>
-                <!-- Folha Template (AZUL, NÃO VERDE) -->
                 <g id="leaf" filter="url(#scrapShadow)">
                     <path d="M0,0 C30,-20 50,0 60,30 C30,50 10,30 0,0 Z" fill="#00529b"/>
                 </g>
-                <g id="pearl" filter="url(#scrapShadow)">
-                    <circle cx="0" cy="0" r="8" fill="#ffffff"/>
-                    <circle cx="-2" cy="-2" r="3" fill="#f8f8f8" opacity="0.8"/>
-                </g>
             </defs>
 
-            <!-- Base da Moldura -->
             <rect x="0" y="0" width="1080" height="1920" fill="none" stroke="#e91e63" stroke-width="120" filter="url(#scrapShadow)"/>
             <rect x="50" y="50" width="980" height="1820" fill="none" stroke="#ff4081" stroke-width="20" stroke-dasharray="30,15"/>
 
-            <!-- Decoração Canto Superior Esquerdo -->
             <text x="120" y="220" font-family="'Brush Script MT', cursive" font-size="160" font-weight="bold" fill="#FFD700" filter="url(#goldGlow)" transform="rotate(-10 120 220)">Mãe</text>
             
-            <!-- Corações de Pérola Simulados (Canto Sup Dir) -->
             <g transform="translate(850, 150) rotate(15)">
-                <!-- Rápida simulação de um coração com bolinhas -->
                 <path d="M0,30 C-30,0 -50,-30 -30,-50 C-10,-70 10,-50 20,-30 C30,-50 50,-70 70,-50 C90,-30 70,0 40,30 L20,50 Z" fill="none" stroke="#ffffff" stroke-width="14" stroke-dasharray="0, 16" stroke-linecap="round" filter="url(#scrapShadow)"/>
             </g>
 
-            <!-- Aglomerado Floral Inferior -->
             <rect x="0" y="1600" width="1080" height="320" fill="#e91e63" filter="url(#scrapShadow)"/>
             <text x="540" y="1850" font-family="Arial, sans-serif" font-size="45" font-weight="bold" fill="#ffffff" text-anchor="middle" filter="url(#scrapShadow)">COLÉGIO ARI DE SÁ</text>
             
-            <!-- Distribuição de Folhas (Azuis) e Flores -->
             <use href="#leaf" x="120" y="1650" transform="rotate(-30 120 1650) scale(1.5)" />
             <use href="#leaf" x="300" y="1720" transform="rotate(45 300 1720) scale(1.3)" />
             <use href="#leaf" x="780" y="1680" transform="rotate(-60 780 1680) scale(1.5)" />
@@ -176,68 +163,45 @@
             <use href="#flower-pink" x="650" y="1720" transform="scale(1.6)"/>
             <use href="#flower-yellow" x="880" y="1660" transform="scale(1.5)"/>
             
-            <!-- Flores nas laterais -->
             <use href="#leaf" x="60" y="600" transform="rotate(45 60 600)" />
             <use href="#flower-yellow" x="60" y="550" transform="scale(1.2)"/>
             <use href="#flower-pink" x="1020" y="1000" transform="scale(1.2)"/>
             <use href="#flower-yellow" x="1020" y="1400" transform="scale(1.4)"/>
         </svg>
 
-        <!-- 1. Elegância Floral Institucional -->
+        <!-- 1. Estilo Polaroid / Recordação -->
         <svg id="svg-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
             <defs>
-                <linearGradient id="ariGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="#00529b"/>
-                    <stop offset="100%" stop-color="#002a5c"/>
-                </linearGradient>
-            </defs>
-            <rect x="0" y="0" width="1080" height="1920" fill="none" stroke="url(#ariGrad)" stroke-width="80" />
-            <rect x="40" y="40" width="1000" height="1840" fill="none" stroke="#FFD700" stroke-width="6" />
-            
-            <!-- Ornamentos Vetoriais Clássicos -->
-            <path d="M40,200 C150,200 200,150 200,40" fill="none" stroke="#FFD700" stroke-width="8"/>
-            <path d="M1040,200 C930,200 880,150 880,40" fill="none" stroke="#FFD700" stroke-width="8"/>
-            <path d="M40,1720 C150,1720 200,1770 200,1880" fill="none" stroke="#FFD700" stroke-width="8"/>
-            <path d="M1040,1720 C930,1720 880,1770 880,1880" fill="none" stroke="#FFD700" stroke-width="8"/>
-            
-            <rect x="140" y="1740" width="800" height="140" fill="#ffffff" rx="20"/>
-            <text x="540" y="1805" font-family="Georgia, serif" font-size="48" font-weight="bold" fill="#00529b" text-anchor="middle">AMOR QUE TRANSFORMA</text>
-            <text x="540" y="1855" font-family="Arial, sans-serif" font-size="28" fill="#e91e63" text-anchor="middle" letter-spacing="4">COLÉGIO ARI DE SÁ CAVALCANTE</text>
-        </svg>
-
-        <!-- 2. Minimalista Premium (Instax/Polaroid Atualizada) -->
-        <svg id="svg-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
-            <defs>
                 <filter id="shadowLight">
-                    <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000000" flood-opacity="0.2"/>
+                    <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000000" flood-opacity="0.3"/>
                 </filter>
             </defs>
             <path d="M0,0 L1080,0 L1080,1920 L0,1920 Z M60,150 L60,1500 L1020,1500 L1020,150 Z" fill="#ffffff" filter="url(#shadowLight)"/>
             <rect x="420" y="20" width="240" height="50" fill="#f3f4f6" opacity="0.8" transform="rotate(-1 540 45)" filter="url(#shadowLight)"/>
             
-            <!-- Corações em aquarela simulada (rosa e azul claro) -->
             <path d="M400,1650 C380,1620 330,1630 330,1670 C330,1710 400,1760 400,1760 C400,1760 470,1710 470,1670 C470,1630 420,1620 400,1650 Z" fill="#ff4081" opacity="0.6"/>
             <path d="M680,1620 C660,1590 610,1600 610,1640 C610,1680 680,1730 680,1730 C680,1730 750,1680 750,1640 C750,1600 700,1590 680,1620 Z" fill="#00529b" opacity="0.4"/>
             
-            <text x="540" y="1740" font-family="'Brush Script MT', cursive" font-size="100" font-weight="normal" fill="#e91e63" text-anchor="middle">Feliz Dia das Mães</text>
+            <text x="540" y="1740" font-family="'Brush Script MT', cursive" font-size="100" font-weight="normal" fill="#e91e63" text-anchor="middle">Feliz Dia da Mãe</text>
             <text x="540" y="1840" font-family="system-ui, sans-serif" font-size="35" font-weight="700" fill="#00529b" text-anchor="middle" letter-spacing="2">ARI DE SÁ • 2026</text>
         </svg>
     </div>
 
-    <!-- UI Principal (Câmera) -->
+    <!-- Visão da Câmara -->
     <div class="viewport-container" id="cameraView">
         <video id="videoElement" autoplay playsinline muted></video>
         <img id="frameOverlay" src="" alt="Moldura Ativa">
 
         <div class="top-bar">
-            <img src="./logo.png" alt="Logo Ari de Sá" class="h-10 object-contain drop-shadow-md" 
+            <!-- Fallback SVG incluído para robustez visual -->
+            <img src="./logo.png" alt="Logotipo Ari de Sá" class="h-10 object-contain drop-shadow-md" 
                  onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9InRyYW5zcGFyZW50Ii8+PHRleHQgeD0iMTAiIHk9IjM1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjZmZmZmZmIj5BcmkgZGUgU8OhPC90ZXh0Pjwvc3ZnPg=='">
             
             <div class="flex gap-3">
-                <button class="action-btn" onclick="toggleCamera()" aria-label="Inverter Câmera">
+                <button class="action-btn" onclick="toggleCamera()" aria-label="Inverter Lente">
                     <i class="fas fa-camera-rotate"></i>
                 </button>
-                <button class="action-btn" onclick="toggleAdminMode()" id="adminToggleBtn" aria-label="Modo Gestão">
+                <button class="action-btn" onclick="toggleAdminMode()" id="adminToggleBtn" aria-label="Modo de Gestão">
                     <i class="fas fa-sliders-h"></i>
                 </button>
             </div>
@@ -245,12 +209,12 @@
 
         <div class="bottom-bar glass-panel" id="bottomBarUI">
             <div class="admin-panel" id="adminPanel">
-                <span class="font-bold tracking-wide uppercase"><i class="fas fa-shield-alt mr-2"></i>Modo Gestão</span>
+                <span class="font-bold tracking-wide uppercase"><i class="fas fa-shield-alt mr-2"></i>Modo de Gestão</span>
                 <div class="flex gap-2">
                     <button class="px-4 py-1 bg-motherPink text-white rounded-full font-bold text-xs uppercase hover:bg-pink-600" onclick="triggerFileInput()">
                         <i class="fas fa-plus mr-1"></i> Adicionar
                     </button>
-                    <input type="file" id="customFrameInput" accept="image/png" class="hidden" onchange="handleCustomFrame(event)">
+                    <input type="file" id="customFrameInput" accept="image/png, image/jpeg" class="hidden" onchange="handleCustomFrame(event)">
                 </div>
             </div>
 
@@ -266,37 +230,36 @@
         </div>
     </div>
 
-    <!-- UI Secundária (Preview e Decisão) -->
+    <!-- Ecrã de Controlo do Utilizador (Preview) -->
     <div id="previewScreen">
-        <img id="previewImage" src="" alt="Pré-visualização">
+        <img id="previewImage" src="" alt="Pré-visualização da Fotografia">
         <div class="preview-controls">
             <button class="btn-preview btn-discard" onclick="discardPhoto()">
-                <i class="fas fa-undo"></i> Refazer
+                <i class="fas fa-undo"></i> Repetir
             </button>
             <button class="btn-preview btn-save" onclick="downloadPhoto()">
-                <i class="fas fa-download"></i> Salvar Foto
+                <i class="fas fa-download"></i> Descarregar
             </button>
         </div>
     </div>
 
-    <!-- Canvas e Efeitos -->
+    <!-- Telas de Processamento Ocultas -->
     <canvas id="renderCanvas" class="hidden"></canvas>
     <div id="flashEffect"></div>
 
-    <!-- Loader -->
     <div class="loader-overlay" id="loaderOverlay">
-        <i class="fas fa-camera text-5xl mb-4 text-ariBlue animate-pulse"></i>
-        <h2 class="text-2xl font-bold mb-2">Iniciando Lentes</h2>
-        <p class="text-sm text-gray-400 max-w-xs text-center">Aguardando permissão do navegador...</p>
+        <i class="fas fa-microchip text-5xl mb-4 text-ariBlue animate-pulse"></i>
+        <h2 class="text-2xl font-bold mb-2">A Inicializar Sensor Óptico</h2>
+        <p class="text-sm text-gray-400 max-w-xs text-center">Por favor, conceda permissão de câmara no seu navegador.</p>
     </div>
 
     <script>
         /**
-         * ENGINE E ESTADO
+         * ESTRUTURA DE ESTADOS E REFERÊNCIAS DO DOM
          */
         const appState = {
             stream: null,
-            facingMode: 'user', // Selfie como padrão inicial
+            facingMode: 'user', // Câmara frontal por padrão
             isAdmin: false,
             activeIndex: 0,
             frames: [],
@@ -311,12 +274,11 @@
             flash: document.getElementById('flashEffect'),
             canvas: document.getElementById('renderCanvas'),
             fileInput: document.getElementById('customFrameInput'),
-            cameraView: document.getElementById('cameraView'),
             previewScreen: document.getElementById('previewScreen'),
             previewImage: document.getElementById('previewImage')
         };
 
-        const STORAGE_KEY = '@AriDeSa:CustomFrames_v2';
+        const STORAGE_KEY = '@AriDeSa:CustomFrames_v3';
 
         window.addEventListener('DOMContentLoaded', async () => {
             initializeFrames();
@@ -325,7 +287,7 @@
             await initCamera();
         });
 
-        // --- GESTÃO DE MOLDURAS (Mantendo persistência local do Admin) ---
+        // --- GESTÃO DE MOLDURAS (Memória Persistente do Navegador) ---
         function initializeFrames() {
             appState.frames = [];
             const svgs = document.querySelectorAll('#svgRepository svg');
@@ -341,13 +303,13 @@
                     const customFrames = JSON.parse(stored);
                     if (Array.isArray(customFrames)) appState.frames = [...appState.frames, ...customFrames];
                 }
-            } catch (e) { console.warn("Erro LocalStorage", e); }
+            } catch (e) { console.warn("Aviso: Falha ao aceder ao LocalStorage.", e); }
         }
 
         function saveCustomFrames() {
             const customOnly = appState.frames.filter(f => f.type === 'custom');
             try { localStorage.setItem(STORAGE_KEY, JSON.stringify(customOnly)); } 
-            catch (e) { alert("Memória cheia."); }
+            catch (e) { alert("Memória local esgotada. Incapaz de guardar mais molduras."); }
         }
 
         function renderCarousel() {
@@ -383,7 +345,7 @@
             });
         }
 
-        // --- ADMIN ---
+        // --- MÓDULO DE ADMINISTRAÇÃO ---
         function toggleAdminMode() {
             appState.isAdmin = !appState.isAdmin;
             document.body.classList.toggle('admin-mode', appState.isAdmin);
@@ -404,26 +366,28 @@
             event.target.value = '';
         }
         function deleteFrame(id) {
-            if (confirm("Remover esta moldura?")) {
+            if (confirm("Tem a certeza de que deseja eliminar esta moldura?")) {
                 appState.frames = appState.frames.filter(f => f.id !== id);
                 saveCustomFrames(); renderCarousel(); selectFrame(0);
             }
         }
 
-        // --- WEBRTC (Correção Óptica do Zoom) ---
+        // --- ENGENHARIA DE CAPTURA ÓPTICA (MITIGAÇÃO DO EFEITO ZOOM) ---
         async function initCamera() {
             if (appState.stream) {
                 appState.stream.getTracks().forEach(track => track.stop());
             }
 
-            // A correção chave: pedir a maior resolução padrão e não forçar aspecto estrito que cause corte
-            // Deixamos o navegador decidir a melhor matriz para o sensor solicitado.
+            // O SEGREDO TEÓRICO: O "Overdrive" do Sensor
+            // Em vez de pedir um rácio específico (o que obriga o SO a cortar a imagem),
+            // solicitamos a resolução horizontal máxima suportada (ex: 4K Landscape).
+            // O telemóvel irá retornar o campo de visão (FoV) nativo total do sensor,
+            // rotacionado corretamente pelo sistema operativo.
             const constraints = {
                 video: {
                     facingMode: appState.facingMode,
-                    width: { ideal: 1080 },
-                    height: { ideal: 1920 }
-                    // Removido o aspectRatio restrito para evitar o crop agressivo no iOS/Android antigo.
+                    width: { ideal: 4096 }, // Força a leitura total do sensor físico
+                    height: { ideal: 2160 }
                 },
                 audio: false
             };
@@ -432,15 +396,19 @@
                 appState.stream = await navigator.mediaDevices.getUserMedia(constraints);
                 startVideoStream();
             } catch (err) {
-                console.warn("Tentando fallback dinâmico...", err);
+                console.warn("Falha no overdrive do sensor. A iniciar modo genérico de fallback...", err);
                 try {
-                    appState.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: appState.facingMode }, audio: false });
+                    // Fallback para dispositivos onde a leitura em alta resolução falha
+                    appState.stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { facingMode: appState.facingMode }, 
+                        audio: false 
+                    });
                     startVideoStream();
                 } catch (fallbackErr) {
                     DOM.loader.innerHTML = `
                         <i class="fas fa-exclamation-triangle text-5xl mb-4 text-motherPink"></i>
-                        <h2 class="text-2xl font-bold mb-2">Erro de Câmera</h2>
-                        <p class="text-sm px-4 text-center">Permissão negada ou hardware indisponível.</p>
+                        <h2 class="text-2xl font-bold mb-2">Acesso Negado</h2>
+                        <p class="text-sm px-4 text-center">Incapaz de comunicar com o hardware fotográfico.</p>
                         <button onclick="location.reload()" class="mt-4 px-6 py-2 bg-ariBlue text-white rounded-full">Recarregar</button>
                     `;
                 }
@@ -461,16 +429,18 @@
             initCamera();
         }
 
-        // --- CAPTURA E PRÉ-VISUALIZAÇÃO (Heurística de Controle) ---
+        // --- MATEMÁTICA DE RENDERIZAÇÃO E PRÉ-VISUALIZAÇÃO ---
         function takeSnapshot() {
             if (!appState.stream) return;
 
-            // Flash visual
+            // Simulação física do obturador (Flash)
             DOM.flash.style.opacity = '1';
             setTimeout(() => { DOM.flash.style.opacity = '0'; DOM.flash.style.transition = 'opacity 0.4s'; }, 50);
             setTimeout(() => { DOM.flash.style.transition = ''; }, 500);
 
             const ctx = DOM.canvas.getContext('2d');
+            
+            // A imagem gerada manterá estritamente o formato 9:16 (1080x1920)
             const targetWidth = 1080;
             const targetHeight = 1920;
             DOM.canvas.width = targetWidth;
@@ -479,7 +449,8 @@
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, targetWidth, targetHeight);
 
-            // Matemática de Crop Refinada (Object-fit matemático)
+            // Algoritmo de Corte Geométrico Seguro (Safe Crop)
+            // Utiliza a matriz do sensor completo que forçámos a carregar e calcula o centro matemático
             const vWidth = DOM.video.videoWidth;
             const vHeight = DOM.video.videoHeight;
             const vRatio = vWidth / vHeight;
@@ -497,22 +468,24 @@
                 offsetY = (targetHeight - drawHeight) / 2;
             }
 
+            // Espelhamento lógico para a câmara frontal (Eixo X)
             ctx.save();
             if (appState.facingMode === 'user') {
                 ctx.translate(targetWidth, 0);
                 ctx.scale(-1, 1);
             }
             
+            // Renderiza o frame de vídeo com o menor crop possível devido ao FoV maximizado
             ctx.drawImage(DOM.video, offsetX, offsetY, drawWidth, drawHeight);
             ctx.restore();
 
-            // Renderizar Moldura por cima
+            // Composição Híbrida: Sobreposição da Matriz SVG (Moldura)
             const frameImg = new Image();
             frameImg.crossOrigin = "anonymous";
             frameImg.onload = () => {
                 ctx.drawImage(frameImg, 0, 0, targetWidth, targetHeight);
                 
-                // Salvar em variável e exibir tela de Preview
+                // Armazenamento em memória temporária para a etapa heurística de aprovação
                 appState.currentPhotoDataUri = DOM.canvas.toDataURL('image/jpeg', 0.95);
                 showPreviewScreen();
             };
@@ -522,29 +495,28 @@
         function showPreviewScreen() {
             DOM.previewImage.src = appState.currentPhotoDataUri;
             DOM.previewScreen.classList.add('active');
-            // Pausar vídeo no fundo para economizar processamento
-            DOM.video.pause();
+            DOM.video.pause(); // Suspensão de processamento do feed
         }
 
         function discardPhoto() {
             appState.currentPhotoDataUri = null;
             DOM.previewImage.src = "";
             DOM.previewScreen.classList.remove('active');
-            DOM.video.play(); // Retomar câmera
+            DOM.video.play(); // Retoma a leitura do hardware
         }
 
         function downloadPhoto() {
             if (!appState.currentPhotoDataUri) return;
             
+            // Transferência assíncrona gerada diretamente no lado do cliente
             const a = document.createElement('a');
-            a.download = `AriDeSa_DiaDasMaes_${Date.now()}.jpg`;
+            a.download = `AriDeSa_DiaDaMae_${Date.now()}.jpg`;
             a.href = appState.currentPhotoDataUri;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
 
-            // Após baixar, volta para a câmera
-            discardPhoto();
+            discardPhoto(); // Regressa ao ecrã inicial após a conclusão
         }
     </script>
 </body>
