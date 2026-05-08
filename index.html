@@ -12,40 +12,42 @@
                 extend: {
                     colors: {
                         ariBlue: '#00529b',
+                        ariBlueDark: '#002a5c',
                         motherPink: '#e91e63',
+                        motherPinkLight: '#ff4081',
+                        goldRef: '#FFD700',
                         darkBg: '#0f172a',
                     },
                     fontFamily: {
                         sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+                        cursive: ['"Brush Script MT"', 'cursive', 'sans-serif']
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Fundamentos de Reset e UI Moderna */
+        /* Fundamentos de Reset e UI */
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; font-family: system-ui, -apple-system, sans-serif; touch-action: none; }
         
-        /* Containers Principais */
         .viewport-container { position: relative; width: 100vw; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        #videoElement { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: filter 0.3s ease; }
+        #videoElement { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
         #frameOverlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill; z-index: 10; pointer-events: none; }
         
-        /* Glassmorphism UI - Ocultado na captura, visível na interação */
+        /* Glassmorphism UI */
         .glass-panel {
-            background: rgba(15, 23, 42, 0.4);
+            background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 20;
-            transition: all 0.3s ease;
         }
         
-        .top-bar { position: absolute; top: 0; left: 0; width: 100%; padding: 1rem; display: flex; justify-content: space-between; align-items: center; z-index: 20; background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%); }
-        .bottom-bar { position: absolute; bottom: 0; left: 0; width: 100%; display: flex; flex-direction: column; z-index: 20; }
+        .top-bar { position: absolute; top: 0; left: 0; width: 100%; padding: 1rem; display: flex; justify-content: space-between; align-items: center; z-index: 20; background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%); }
+        .bottom-bar { position: absolute; bottom: 0; left: 0; width: 100%; display: flex; flex-direction: column; z-index: 20; transition: transform 0.3s ease; }
 
-        /* Botão de Captura Refinado (Estilo Apple/Moderno) */
+        /* Botão de Captura */
         .shutter-btn-container { display: flex; justify-content: center; align-items: center; padding: 1.5rem 0; width: 100%; }
         .shutter-btn {
             width: 76px; height: 76px; border-radius: 50%;
@@ -59,11 +61,11 @@
         }
         .shutter-btn:active .shutter-btn-inner { transform: scale(0.85); background-color: #f1f1f1; }
 
-        /* Carrossel de Molduras Otimizado */
+        /* Carrossel */
         .carousel-container { padding: 1rem 1rem 0 1rem; width: 100%; }
         .frames-scroll {
             display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;
-            scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none;
+            scroll-behavior: smooth; scrollbar-width: none;
         }
         .frames-scroll::-webkit-scrollbar { display: none; }
         
@@ -73,164 +75,161 @@
             border: 2px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1);
             cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .thumb-wrapper.active .frame-thumb {
-            border-color: #e91e63;
-            box-shadow: 0 0 0 2px #0f172a, 0 0 0 4px #e91e63;
-            transform: translateY(-4px);
-        }
+        .thumb-wrapper.active .frame-thumb { border-color: #FFD700; box-shadow: 0 0 0 2px #0f172a, 0 0 0 4px #FFD700; transform: translateY(-4px); }
 
-        /* Botões de Ação e Admin */
-        .action-btn {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px);
-            color: white; display: flex; justify-content: center; align-items: center;
-            border: 1px solid rgba(255,255,255,0.1); font-size: 1.1rem;
-            cursor: pointer; transition: background 0.2s;
-        }
+        /* Modos e Botões */
+        .action-btn { width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px); color: white; display: flex; justify-content: center; align-items: center; border: 1px solid rgba(255,255,255,0.1); font-size: 1.1rem; cursor: pointer; transition: background 0.2s; }
         .action-btn:active { background: rgba(255, 255, 255, 0.3); }
         
-        .delete-badge {
-            position: absolute; top: -6px; right: -6px;
-            width: 24px; height: 24px; border-radius: 50%;
-            background-color: #ef4444; color: white; display: none;
-            justify-content: center; align-items: center; font-size: 10px;
-            cursor: pointer; border: 2px solid #0f172a; z-index: 30;
-        }
+        .delete-badge { position: absolute; top: -6px; right: -6px; width: 24px; height: 24px; border-radius: 50%; background-color: #ef4444; color: white; display: none; justify-content: center; align-items: center; font-size: 10px; cursor: pointer; border: 2px solid #0f172a; z-index: 30; }
         .admin-mode .delete-badge { display: flex; }
-        .admin-mode .thumb-wrapper.default-frame .delete-badge { display: none; /* Impede apagar frames originais */ }
+        .admin-mode .thumb-wrapper.default-frame .delete-badge { display: none; }
         
-        .admin-panel {
-            display: none; padding: 0.5rem 1rem; background: rgba(0, 82, 155, 0.9);
-            color: white; font-size: 0.8rem; justify-content: space-between; align-items: center;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
+        .admin-panel { display: none; padding: 0.5rem 1rem; background: rgba(0, 82, 155, 0.95); color: white; font-size: 0.8rem; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.2); }
         .admin-mode .admin-panel { display: flex; }
 
-        /* Feedback Visual */
+        /* PREVIEW SCREEN (Heurística de Controle do Usuário) */
+        #previewScreen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; z-index: 50; display: flex; flex-direction: column;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        #previewScreen.active { opacity: 1; pointer-events: auto; }
+        #previewImage { flex: 1; width: 100%; object-fit: contain; background: #111; }
+        .preview-controls { display: flex; justify-content: space-around; padding: 1.5rem; background: #0f172a; border-top: 1px solid #333; }
+        .btn-preview { padding: 1rem 2rem; border-radius: 30px; font-weight: bold; font-size: 1rem; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: transform 0.1s; }
+        .btn-preview:active { transform: scale(0.95); }
+        .btn-discard { background: #334155; color: white; }
+        .btn-save { background: #e91e63; color: white; box-shadow: 0 4px 15px rgba(233, 30, 99, 0.4); }
+
         #flashEffect { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 999; opacity: 0; pointer-events: none; }
         .loader-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; transition: opacity 0.5s; }
         .hidden { display: none !important; opacity: 0; pointer-events: none; }
-
-        /* Definições de SVG Ocultas para Serialização */
         #svgRepository { display: none; }
     </style>
 </head>
 <body>
 
-    <!-- REPOSITÓRIO DE MOLDURAS (SVGs de Alta Fidelidade) -->
-    <!-- Design rigosoramente estruturado sem verde. Uso de Azul Ari (#00529b) e Magenta/Rosa -->
+    <!-- REPOSITÓRIO DE MOLDURAS: Abordagem Skeuomorfica/Scrapbook baseada na referência. -->
     <div id="svgRepository">
         
-        <!-- 0. Elegância Fluida (Moderno, Glassmorphism fake, Limpo) -->
+        <!-- 0. Estilo Scrapbook Festivo (Inspirado na imagem enviada) -->
+        <!-- Borda vermelha/rosa vibrante, texturas simuladas de alto relevo, flores recortadas (SEM VERDE). -->
         <svg id="svg-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
             <defs>
-                <linearGradient id="gradFluid1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#00529b" stop-opacity="0.8"/>
-                    <stop offset="100%" stop-color="#e91e63" stop-opacity="0.6"/>
-                </linearGradient>
-                <filter id="blurFilter" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="40" />
+                <filter id="scrapShadow" x="-10%" y="-10%" width="130%" height="130%">
+                    <feDropShadow dx="3" dy="5" stdDeviation="4" flood-color="#000000" flood-opacity="0.4"/>
                 </filter>
+                <filter id="goldGlow">
+                    <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#FFD700" flood-opacity="0.6"/>
+                </filter>
+                <!-- Flor Template 1 -->
+                <g id="flower-pink" filter="url(#scrapShadow)">
+                    <path d="M0,0 C15,-30 45,-30 60,0 C75,-30 105,-30 120,0 C120,30 60,75 60,75 C60,75 0,30 0,0 Z" fill="#e91e63" transform="translate(-60, -30) scale(0.8)"/>
+                    <path d="M0,0 C15,-30 45,-30 60,0 C75,-30 105,-30 120,0 C120,30 60,75 60,75 C60,75 0,30 0,0 Z" fill="#ff4081" transform="translate(-60, -30) scale(0.6) rotate(45)"/>
+                    <circle cx="0" cy="10" r="12" fill="#FFD700" />
+                </g>
+                <!-- Flor Template 2 -->
+                <g id="flower-yellow" filter="url(#scrapShadow)">
+                    <path d="M0,-40 C30,-40 30,0 0,0 C-30,0 -30,-40 0,-40 Z" fill="#FFD700" transform="rotate(0)"/>
+                    <path d="M0,-40 C30,-40 30,0 0,0 C-30,0 -30,-40 0,-40 Z" fill="#FFD700" transform="rotate(72)"/>
+                    <path d="M0,-40 C30,-40 30,0 0,0 C-30,0 -30,-40 0,-40 Z" fill="#FFD700" transform="rotate(144)"/>
+                    <path d="M0,-40 C30,-40 30,0 0,0 C-30,0 -30,-40 0,-40 Z" fill="#FFD700" transform="rotate(216)"/>
+                    <path d="M0,-40 C30,-40 30,0 0,0 C-30,0 -30,-40 0,-40 Z" fill="#FFD700" transform="rotate(288)"/>
+                    <circle cx="0" cy="0" r="15" fill="#e91e63" />
+                </g>
+                <!-- Folha Template (AZUL, NÃO VERDE) -->
+                <g id="leaf" filter="url(#scrapShadow)">
+                    <path d="M0,0 C30,-20 50,0 60,30 C30,50 10,30 0,0 Z" fill="#00529b"/>
+                </g>
+                <g id="pearl" filter="url(#scrapShadow)">
+                    <circle cx="0" cy="0" r="8" fill="#ffffff"/>
+                    <circle cx="-2" cy="-2" r="3" fill="#f8f8f8" opacity="0.8"/>
+                </g>
             </defs>
-            <!-- Formas orgânicas nos cantos -->
-            <path d="M0,0 L400,0 C350,150 200,300 0,350 Z" fill="url(#gradFluid1)" />
-            <path d="M1080,1920 L680,1920 C730,1770 880,1620 1080,1570 Z" fill="url(#gradFluid1)" />
-            <!-- Borda ultra fina de elegância -->
-            <rect x="40" y="40" width="1000" height="1840" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" rx="40"/>
-            <rect x="0" y="1700" width="1080" height="220" fill="rgba(0, 82, 155, 0.85)" />
-            <text x="540" y="1800" font-family="system-ui, -apple-system, sans-serif" font-size="65" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="2">FELIZ DIA DAS MÃES</text>
-            <text x="540" y="1855" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="400" fill="#fce4ec" text-anchor="middle" letter-spacing="6">COLÉGIO ARI DE SÁ</text>
+
+            <!-- Base da Moldura -->
+            <rect x="0" y="0" width="1080" height="1920" fill="none" stroke="#e91e63" stroke-width="120" filter="url(#scrapShadow)"/>
+            <rect x="50" y="50" width="980" height="1820" fill="none" stroke="#ff4081" stroke-width="20" stroke-dasharray="30,15"/>
+
+            <!-- Decoração Canto Superior Esquerdo -->
+            <text x="120" y="220" font-family="'Brush Script MT', cursive" font-size="160" font-weight="bold" fill="#FFD700" filter="url(#goldGlow)" transform="rotate(-10 120 220)">Mãe</text>
+            
+            <!-- Corações de Pérola Simulados (Canto Sup Dir) -->
+            <g transform="translate(850, 150) rotate(15)">
+                <!-- Rápida simulação de um coração com bolinhas -->
+                <path d="M0,30 C-30,0 -50,-30 -30,-50 C-10,-70 10,-50 20,-30 C30,-50 50,-70 70,-50 C90,-30 70,0 40,30 L20,50 Z" fill="none" stroke="#ffffff" stroke-width="14" stroke-dasharray="0, 16" stroke-linecap="round" filter="url(#scrapShadow)"/>
+            </g>
+
+            <!-- Aglomerado Floral Inferior -->
+            <rect x="0" y="1600" width="1080" height="320" fill="#e91e63" filter="url(#scrapShadow)"/>
+            <text x="540" y="1850" font-family="Arial, sans-serif" font-size="45" font-weight="bold" fill="#ffffff" text-anchor="middle" filter="url(#scrapShadow)">COLÉGIO ARI DE SÁ</text>
+            
+            <!-- Distribuição de Folhas (Azuis) e Flores -->
+            <use href="#leaf" x="120" y="1650" transform="rotate(-30 120 1650) scale(1.5)" />
+            <use href="#leaf" x="300" y="1720" transform="rotate(45 300 1720) scale(1.3)" />
+            <use href="#leaf" x="780" y="1680" transform="rotate(-60 780 1680) scale(1.5)" />
+            <use href="#leaf" x="950" y="1700" transform="rotate(20 950 1700) scale(1.4)" />
+
+            <use href="#flower-pink" x="200" y="1680" transform="scale(1.5)"/>
+            <use href="#flower-yellow" x="400" y="1700" transform="scale(1.8)"/>
+            <use href="#flower-pink" x="650" y="1720" transform="scale(1.6)"/>
+            <use href="#flower-yellow" x="880" y="1660" transform="scale(1.5)"/>
+            
+            <!-- Flores nas laterais -->
+            <use href="#leaf" x="60" y="600" transform="rotate(45 60 600)" />
+            <use href="#flower-yellow" x="60" y="550" transform="scale(1.2)"/>
+            <use href="#flower-pink" x="1020" y="1000" transform="scale(1.2)"/>
+            <use href="#flower-yellow" x="1020" y="1400" transform="scale(1.4)"/>
         </svg>
 
-        <!-- 1. Instax / Polaroid Minimalista -->
+        <!-- 1. Elegância Floral Institucional -->
         <svg id="svg-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
             <defs>
-                <filter id="dropShadow" x="-10%" y="-10%" width="130%" height="130%">
-                    <feDropShadow dx="0" dy="15" stdDeviation="20" flood-color="#000000" flood-opacity="0.3"/>
-                </filter>
-            </defs>
-            <!-- Moldura Branca Estilo Polaroid com Sombra -->
-            <path d="M40,150 L1040,150 L1040,1850 L40,1850 Z" fill="none"/> <!-- Hole -->
-            <path d="M0,0 L1080,0 L1080,1920 L0,1920 Z M40,150 L40,1550 L1040,1550 L1040,150 Z" fill="#ffffff" filter="url(#dropShadow)"/>
-            <text x="540" y="1720" font-family="'Brush Script MT', 'Comic Sans MS', cursive, sans-serif" font-size="110" font-weight="normal" fill="#e91e63" text-anchor="middle">Te amo, Mãe!</text>
-            <text x="540" y="1830" font-family="system-ui, -apple-system, sans-serif" font-size="35" font-weight="600" fill="#00529b" text-anchor="middle" letter-spacing="4">COLÉGIO ARI DE SÁ CAVALCANTE</text>
-        </svg>
-
-        <!-- 2. Capa de Revista (Cinemático / Editorial) -->
-        <svg id="svg-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
-            <rect x="0" y="0" width="1080" height="1920" fill="none" stroke="#00529b" stroke-width="40" />
-            <rect x="20" y="20" width="1040" height="1880" fill="none" stroke="#ffffff" stroke-width="4" />
-            <!-- Título Gigante Transparente com Outline -->
-            <text x="540" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="280" font-weight="900" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="4" text-anchor="middle" letter-spacing="-5">MÃE</text>
-            <rect x="0" y="1650" width="1080" height="270" fill="url(#gradBottomDark)" />
-            <defs>
-                <linearGradient id="gradBottomDark" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stop-color="#000000" stop-opacity="0.9"/>
-                    <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+                <linearGradient id="ariGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#00529b"/>
+                    <stop offset="100%" stop-color="#002a5c"/>
                 </linearGradient>
             </defs>
-            <text x="80" y="1780" font-family="system-ui, -apple-system, sans-serif" font-size="75" font-weight="800" fill="#ffffff" text-anchor="start">AMOR QUE</text>
-            <text x="80" y="1850" font-family="system-ui, -apple-system, sans-serif" font-size="75" font-weight="800" fill="#e91e63" text-anchor="start">INSPIRA</text>
-            <text x="1000" y="1840" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="400" fill="#ffffff" text-anchor="end" letter-spacing="2">ARI DE SÁ • 2026</text>
+            <rect x="0" y="0" width="1080" height="1920" fill="none" stroke="url(#ariGrad)" stroke-width="80" />
+            <rect x="40" y="40" width="1000" height="1840" fill="none" stroke="#FFD700" stroke-width="6" />
+            
+            <!-- Ornamentos Vetoriais Clássicos -->
+            <path d="M40,200 C150,200 200,150 200,40" fill="none" stroke="#FFD700" stroke-width="8"/>
+            <path d="M1040,200 C930,200 880,150 880,40" fill="none" stroke="#FFD700" stroke-width="8"/>
+            <path d="M40,1720 C150,1720 200,1770 200,1880" fill="none" stroke="#FFD700" stroke-width="8"/>
+            <path d="M1040,1720 C930,1720 880,1770 880,1880" fill="none" stroke="#FFD700" stroke-width="8"/>
+            
+            <rect x="140" y="1740" width="800" height="140" fill="#ffffff" rx="20"/>
+            <text x="540" y="1805" font-family="Georgia, serif" font-size="48" font-weight="bold" fill="#00529b" text-anchor="middle">AMOR QUE TRANSFORMA</text>
+            <text x="540" y="1855" font-family="Arial, sans-serif" font-size="28" fill="#e91e63" text-anchor="middle" letter-spacing="4">COLÉGIO ARI DE SÁ CAVALCANTE</text>
         </svg>
 
-        <!-- 3. Neon Cyberpunk / High-Tech Moderno -->
-        <svg id="svg-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+        <!-- 2. Minimalista Premium (Instax/Polaroid Atualizada) -->
+        <svg id="svg-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
             <defs>
-                <filter id="neonPink" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
-                    <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                </filter>
-                <filter id="neonBlue" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
-                    <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
+                <filter id="shadowLight">
+                    <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#000000" flood-opacity="0.2"/>
                 </filter>
             </defs>
-            <!-- Linhas de grade sutis -->
-            <line x1="100" y1="0" x2="100" y2="1920" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-            <line x1="980" y1="0" x2="980" y2="1920" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <path d="M0,0 L1080,0 L1080,1920 L0,1920 Z M60,150 L60,1500 L1020,1500 L1020,150 Z" fill="#ffffff" filter="url(#shadowLight)"/>
+            <rect x="420" y="20" width="240" height="50" fill="#f3f4f6" opacity="0.8" transform="rotate(-1 540 45)" filter="url(#shadowLight)"/>
             
-            <path d="M50,100 L100,50 L980,50 L1030,100" fill="none" stroke="#e91e63" stroke-width="6" filter="url(#neonPink)"/>
-            <path d="M50,1820 L100,1870 L980,1870 L1030,1820" fill="none" stroke="#00529b" stroke-width="6" filter="url(#neonBlue)"/>
+            <!-- Corações em aquarela simulada (rosa e azul claro) -->
+            <path d="M400,1650 C380,1620 330,1630 330,1670 C330,1710 400,1760 400,1760 C400,1760 470,1710 470,1670 C470,1630 420,1620 400,1650 Z" fill="#ff4081" opacity="0.6"/>
+            <path d="M680,1620 C660,1590 610,1600 610,1640 C610,1680 680,1730 680,1730 C680,1730 750,1680 750,1640 C750,1600 700,1590 680,1620 Z" fill="#00529b" opacity="0.4"/>
             
-            <rect x="240" y="1740" width="600" height="90" rx="45" fill="#1e293b" opacity="0.9" stroke="#e91e63" stroke-width="2" filter="url(#neonPink)"/>
-            <text x="540" y="1805" font-family="Courier New, monospace" font-size="45" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="1">#MaeAriDeSa</text>
-        </svg>
-
-        <!-- 4. Arte Deco (Clássico Premium Dourado/Azul) -->
-        <svg id="svg-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
-            <!-- Bordas Duplas Douradas e Azuis -->
-            <rect x="60" y="60" width="960" height="1800" fill="none" stroke="#D4AF37" stroke-width="4"/>
-            <rect x="80" y="80" width="920" height="1760" fill="none" stroke="#00529b" stroke-width="2"/>
-            <!-- Ornamentos de Canto Art Deco -->
-            <path d="M 60,160 L 160,160 L 160,60" fill="none" stroke="#D4AF37" stroke-width="8"/>
-            <path d="M 1020,160 L 920,160 L 920,60" fill="none" stroke="#D4AF37" stroke-width="8"/>
-            <path d="M 60,1760 L 160,1760 L 160,1860" fill="none" stroke="#D4AF37" stroke-width="8"/>
-            <path d="M 1020,1760 L 920,1760 L 920,1860" fill="none" stroke="#D4AF37" stroke-width="8"/>
-            
-            <rect x="150" y="1720" width="780" height="160" fill="#00529b" opacity="0.95" />
-            <text x="540" y="1780" font-family="'Times New Roman', Times, serif" font-size="55" font-weight="bold" fill="#D4AF37" text-anchor="middle" letter-spacing="3">INCONDICIONAL</text>
-            <text x="540" y="1840" font-family="'Times New Roman', Times, serif" font-size="30" fill="#ffffff" text-anchor="middle" letter-spacing="8">COLÉGIO ARI DE SÁ</text>
+            <text x="540" y="1740" font-family="'Brush Script MT', cursive" font-size="100" font-weight="normal" fill="#e91e63" text-anchor="middle">Feliz Dia das Mães</text>
+            <text x="540" y="1840" font-family="system-ui, sans-serif" font-size="35" font-weight="700" fill="#00529b" text-anchor="middle" letter-spacing="2">ARI DE SÁ • 2026</text>
         </svg>
     </div>
 
-    <!-- Interface Principal -->
-    <div class="viewport-container">
-        
-        <!-- Stream de Vídeo -->
+    <!-- UI Principal (Câmera) -->
+    <div class="viewport-container" id="cameraView">
         <video id="videoElement" autoplay playsinline muted></video>
-        <!-- Overlay Renderizado -->
         <img id="frameOverlay" src="" alt="Moldura Ativa">
 
-        <!-- Barra Superior -->
         <div class="top-bar">
-            <!-- Espaço para o Logo (Utilizando fallback SVG caso logo.png não carregue na máquina local) -->
             <img src="./logo.png" alt="Logo Ari de Sá" class="h-10 object-contain drop-shadow-md" 
                  onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgNTAiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iNTAiIGZpbGw9InRyYW5zcGFyZW50Ii8+PHRleHQgeD0iMTAiIHk9IjM1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjZmZmZmZmIj5BcmkgZGUgU8OhPC90ZXh0Pjwvc3ZnPg=='">
             
@@ -238,68 +237,70 @@
                 <button class="action-btn" onclick="toggleCamera()" aria-label="Inverter Câmera">
                     <i class="fas fa-camera-rotate"></i>
                 </button>
-                <button class="action-btn" onclick="toggleAdminMode()" id="adminToggleBtn" aria-label="Modo Gestão" title="Adicionar/Remover Molduras">
+                <button class="action-btn" onclick="toggleAdminMode()" id="adminToggleBtn" aria-label="Modo Gestão">
                     <i class="fas fa-sliders-h"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Barra Inferior e Controles -->
         <div class="bottom-bar glass-panel" id="bottomBarUI">
-            
-            <!-- Painel Administrativo (Oculto por padrão) -->
             <div class="admin-panel" id="adminPanel">
-                <span class="font-bold tracking-wide uppercase"><i class="fas fa-shield-alt mr-2"></i>Modo Gestão Ativo</span>
+                <span class="font-bold tracking-wide uppercase"><i class="fas fa-shield-alt mr-2"></i>Modo Gestão</span>
                 <div class="flex gap-2">
-                    <button class="px-4 py-1.5 bg-motherPink text-white rounded-full font-bold text-xs uppercase tracking-wider hover:bg-pink-600 transition" onclick="triggerFileInput()">
-                        <i class="fas fa-plus mr-1"></i> Nova Moldura
+                    <button class="px-4 py-1 bg-motherPink text-white rounded-full font-bold text-xs uppercase hover:bg-pink-600" onclick="triggerFileInput()">
+                        <i class="fas fa-plus mr-1"></i> Adicionar
                     </button>
                     <input type="file" id="customFrameInput" accept="image/png" class="hidden" onchange="handleCustomFrame(event)">
                 </div>
             </div>
 
-            <!-- Carrossel -->
             <div class="carousel-container">
-                <div class="text-center mb-3">
-                    <span class="text-xs text-white/70 uppercase tracking-widest font-semibold drop-shadow-md" id="carouselLabel">Deslize para escolher</span>
-                </div>
-                <div class="frames-scroll" id="framesScroll">
-                    <!-- Gerado via JavaScript -->
-                </div>
+                <div class="frames-scroll" id="framesScroll"></div>
             </div>
 
-            <!-- Botão de Disparo -->
             <div class="shutter-btn-container">
-                <div class="shutter-btn" onclick="capturePhoto()">
+                <div class="shutter-btn" onclick="takeSnapshot()">
                     <div class="shutter-btn-inner"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Elementos Ocultos de Processamento -->
+    <!-- UI Secundária (Preview e Decisão) -->
+    <div id="previewScreen">
+        <img id="previewImage" src="" alt="Pré-visualização">
+        <div class="preview-controls">
+            <button class="btn-preview btn-discard" onclick="discardPhoto()">
+                <i class="fas fa-undo"></i> Refazer
+            </button>
+            <button class="btn-preview btn-save" onclick="downloadPhoto()">
+                <i class="fas fa-download"></i> Salvar Foto
+            </button>
+        </div>
+    </div>
+
+    <!-- Canvas e Efeitos -->
     <canvas id="renderCanvas" class="hidden"></canvas>
     <div id="flashEffect"></div>
 
-    <!-- Tela de Carregamento/Permissão -->
+    <!-- Loader -->
     <div class="loader-overlay" id="loaderOverlay">
         <i class="fas fa-camera text-5xl mb-4 text-ariBlue animate-pulse"></i>
-        <h2 class="text-2xl font-bold mb-2">Preparando Câmera</h2>
-        <p class="text-sm text-gray-400 max-w-xs text-center">Conceda permissão no seu navegador para registrar este momento.</p>
+        <h2 class="text-2xl font-bold mb-2">Iniciando Lentes</h2>
+        <p class="text-sm text-gray-400 max-w-xs text-center">Aguardando permissão do navegador...</p>
     </div>
 
     <script>
         /**
-         * ARQUITETURA E GERENCIAMENTO DE ESTADO (State Management)
-         * O array 'appState.frames' é a fonte de verdade.
-         * Ele é composto pelos SVGs nativos (imutáveis) + Base64 armazenados no LocalStorage (mutáveis).
+         * ENGINE E ESTADO
          */
         const appState = {
             stream: null,
-            facingMode: 'environment', // Traseira como padrão
+            facingMode: 'user', // Selfie como padrão inicial
             isAdmin: false,
             activeIndex: 0,
-            frames: [] // { id: string, type: 'default'|'custom', uri: string }
+            frames: [],
+            currentPhotoDataUri: null
         };
 
         const DOM = {
@@ -307,15 +308,16 @@
             overlay: document.getElementById('frameOverlay'),
             scroll: document.getElementById('framesScroll'),
             loader: document.getElementById('loaderOverlay'),
-            body: document.body,
             flash: document.getElementById('flashEffect'),
             canvas: document.getElementById('renderCanvas'),
-            fileInput: document.getElementById('customFrameInput')
+            fileInput: document.getElementById('customFrameInput'),
+            cameraView: document.getElementById('cameraView'),
+            previewScreen: document.getElementById('previewScreen'),
+            previewImage: document.getElementById('previewImage')
         };
 
-        const STORAGE_KEY = '@AriDeSa:CustomFrames_v1';
+        const STORAGE_KEY = '@AriDeSa:CustomFrames_v2';
 
-        // --- INICIALIZAÇÃO DA APLICAÇÃO ---
         window.addEventListener('DOMContentLoaded', async () => {
             initializeFrames();
             renderCarousel();
@@ -323,50 +325,33 @@
             await initCamera();
         });
 
-        // --- GESTÃO DE DADOS (LOCAL STORAGE E SVGS) ---
+        // --- GESTÃO DE MOLDURAS (Mantendo persistência local do Admin) ---
         function initializeFrames() {
             appState.frames = [];
-            
-            // 1. Carregar SVGs Nativos do DOM (Garante dependência zero de arquivos externos)
             const svgs = document.querySelectorAll('#svgRepository svg');
             svgs.forEach((svg, index) => {
                 const svgString = new XMLSerializer().serializeToString(svg);
                 const encodedData = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`;
-                appState.frames.push({
-                    id: `default-${index}`,
-                    type: 'default',
-                    uri: encodedData
-                });
+                appState.frames.push({ id: `default-${index}`, type: 'default', uri: encodedData });
             });
 
-            // 2. Carregar Molduras Customizadas do LocalStorage (Modo Admin Persistente)
             try {
                 const stored = localStorage.getItem(STORAGE_KEY);
                 if (stored) {
                     const customFrames = JSON.parse(stored);
-                    if (Array.isArray(customFrames)) {
-                        appState.frames = [...appState.frames, ...customFrames];
-                    }
+                    if (Array.isArray(customFrames)) appState.frames = [...appState.frames, ...customFrames];
                 }
-            } catch (e) {
-                console.warn("Erro ao acessar LocalStorage. Apenas frames padrão disponíveis.", e);
-            }
+            } catch (e) { console.warn("Erro LocalStorage", e); }
         }
 
         function saveCustomFrames() {
-            // Salva apenas os frames cujo tipo seja 'custom'
             const customOnly = appState.frames.filter(f => f.type === 'custom');
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(customOnly));
-            } catch (e) {
-                alert("Memória do navegador cheia. Não foi possível salvar a nova moldura.");
-            }
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(customOnly)); } 
+            catch (e) { alert("Memória cheia."); }
         }
 
-        // --- RENDERIZAÇÃO DA INTERFACE ---
         function renderCarousel() {
             DOM.scroll.innerHTML = '';
-            
             appState.frames.forEach((frame, index) => {
                 const wrapper = document.createElement('div');
                 wrapper.className = `thumb-wrapper ${frame.type === 'default' ? 'default-frame' : 'custom-frame'} ${index === appState.activeIndex ? 'active' : ''}`;
@@ -376,14 +361,10 @@
                 img.className = 'frame-thumb';
                 img.onclick = () => selectFrame(index);
                 
-                // Badge de exclusão (apenas operante no admin e em frames custom)
                 const delBadge = document.createElement('div');
                 delBadge.className = 'delete-badge';
                 delBadge.innerHTML = '<i class="fas fa-times"></i>';
-                delBadge.onclick = (e) => {
-                    e.stopPropagation(); // Impede de selecionar ao clicar em excluir
-                    deleteFrame(frame.id);
-                };
+                delBadge.onclick = (e) => { e.stopPropagation(); deleteFrame(frame.id); };
 
                 wrapper.appendChild(img);
                 wrapper.appendChild(delBadge);
@@ -392,163 +373,113 @@
         }
 
         function selectFrame(index) {
-            // Garante que o índice exista (importante após exclusões)
             if (index < 0 || index >= appState.frames.length) index = 0;
-            
             appState.activeIndex = index;
             DOM.overlay.src = appState.frames[index].uri;
             
-            // Atualizar classes visuais
             Array.from(DOM.scroll.children).forEach((child, i) => {
                 child.classList.toggle('active', i === index);
                 if (i === index) child.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             });
         }
 
-        // --- FUNÇÕES DE ADMINISTRAÇÃO ---
+        // --- ADMIN ---
         function toggleAdminMode() {
             appState.isAdmin = !appState.isAdmin;
-            DOM.body.classList.toggle('admin-mode', appState.isAdmin);
-            
+            document.body.classList.toggle('admin-mode', appState.isAdmin);
             const btn = document.getElementById('adminToggleBtn');
-            if (appState.isAdmin) {
-                btn.classList.add('bg-ariBlue', 'text-white');
-                btn.classList.remove('bg-white/15');
-            } else {
-                btn.classList.remove('bg-ariBlue', 'text-white');
-                btn.classList.add('bg-white/15');
-            }
+            btn.classList.toggle('bg-ariBlue', appState.isAdmin);
+            btn.classList.toggle('text-white', appState.isAdmin);
         }
-
-        function triggerFileInput() {
-            DOM.fileInput.click();
-        }
-
+        function triggerFileInput() { DOM.fileInput.click(); }
         function handleCustomFrame(event) {
             const file = event.target.files[0];
-            if (!file) return;
-
-            // Rigor: Validar se é imagem (preferencialmente PNG com transparência)
-            if (!file.type.startsWith('image/')) {
-                alert("Por favor, envie um arquivo de imagem válido.");
-                return;
-            }
-
+            if (!file || !file.type.startsWith('image/')) return;
             const reader = new FileReader();
             reader.onload = (e) => {
-                const newFrame = {
-                    id: `custom-${Date.now()}`,
-                    type: 'custom',
-                    uri: e.target.result // Base64 Data URI
-                };
-                
-                appState.frames.push(newFrame);
-                saveCustomFrames();
-                renderCarousel();
-                selectFrame(appState.frames.length - 1); // Foca na nova moldura
+                appState.frames.push({ id: `custom-${Date.now()}`, type: 'custom', uri: e.target.result });
+                saveCustomFrames(); renderCarousel(); selectFrame(appState.frames.length - 1);
             };
             reader.readAsDataURL(file);
-            event.target.value = ''; // Reseta o input
+            event.target.value = '';
         }
-
         function deleteFrame(id) {
-            if (confirm("Tem certeza que deseja remover esta moldura?")) {
-                const index = appState.frames.findIndex(f => f.id === id);
-                if (index > -1) {
-                    appState.frames.splice(index, 1);
-                    saveCustomFrames();
-                    renderCarousel();
-                    selectFrame(0); // Volta para a primeira após excluir
-                }
+            if (confirm("Remover esta moldura?")) {
+                appState.frames = appState.frames.filter(f => f.id !== id);
+                saveCustomFrames(); renderCarousel(); selectFrame(0);
             }
         }
 
-        // --- HARDWARE E WEBRTC ---
+        // --- WEBRTC (Correção Óptica do Zoom) ---
         async function initCamera() {
             if (appState.stream) {
                 appState.stream.getTracks().forEach(track => track.stop());
             }
 
-            // Constraints rigorosas para priorizar resolução HD e proporção de retrato
-            const idealConstraints = {
+            // A correção chave: pedir a maior resolução padrão e não forçar aspecto estrito que cause corte
+            // Deixamos o navegador decidir a melhor matriz para o sensor solicitado.
+            const constraints = {
                 video: {
                     facingMode: appState.facingMode,
                     width: { ideal: 1080 },
                     height: { ideal: 1920 }
+                    // Removido o aspectRatio restrito para evitar o crop agressivo no iOS/Android antigo.
                 },
                 audio: false
             };
 
             try {
-                // Tenta primeiro com as constraints ideais
-                appState.stream = await navigator.mediaDevices.getUserMedia(idealConstraints);
+                appState.stream = await navigator.mediaDevices.getUserMedia(constraints);
                 startVideoStream();
             } catch (err) {
-                console.warn("Falha ao acessar câmera com constraints específicas. Tentando fallback genérico...", err);
-                
+                console.warn("Tentando fallback dinâmico...", err);
                 try {
-                    // Fallback: Tenta acessar qualquer câmera disponível sem restrições
-                    const fallbackConstraints = { video: true, audio: false };
-                    appState.stream = await navigator.mediaDevices.getUserMedia(fallbackConstraints);
+                    appState.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: appState.facingMode }, audio: false });
                     startVideoStream();
                 } catch (fallbackErr) {
-                    console.error("WebRTC Error (Fallback):", fallbackErr);
-                    showCameraError();
+                    DOM.loader.innerHTML = `
+                        <i class="fas fa-exclamation-triangle text-5xl mb-4 text-motherPink"></i>
+                        <h2 class="text-2xl font-bold mb-2">Erro de Câmera</h2>
+                        <p class="text-sm px-4 text-center">Permissão negada ou hardware indisponível.</p>
+                        <button onclick="location.reload()" class="mt-4 px-6 py-2 bg-ariBlue text-white rounded-full">Recarregar</button>
+                    `;
                 }
             }
         }
 
         function startVideoStream() {
             DOM.video.srcObject = appState.stream;
-            
-            // Aguarda o vídeo estar pronto para tocar antes de ocultar o loader
             DOM.video.onloadedmetadata = () => {
                 DOM.video.play();
                 DOM.loader.classList.add('hidden');
             };
         }
 
-        function showCameraError() {
-            DOM.loader.innerHTML = `
-                <i class="fas fa-exclamation-triangle text-5xl mb-4 text-motherPink"></i>
-                <h2 class="text-2xl font-bold mb-2 text-center">Câmera Indisponível</h2>
-                <p class="text-sm text-gray-400 text-center px-4">Não foi possível encontrar uma câmera ou o acesso foi negado. Se estiver no computador, verifique se a webcam está conectada.</p>
-                <button onclick="location.reload()" class="mt-6 px-6 py-2 bg-ariBlue text-white rounded-full font-bold">Tentar Novamente</button>
-            `;
-            DOM.loader.classList.remove('hidden');
-        }
-
         function toggleCamera() {
             appState.facingMode = appState.facingMode === 'user' ? 'environment' : 'user';
             DOM.loader.classList.remove('hidden');
-            DOM.loader.querySelector('h2').innerText = "Invertendo Câmera...";
             initCamera();
         }
 
-        // --- PROCESSAMENTO DA CAPTURA (ENGINE GRÁFICA) ---
-        function capturePhoto() {
+        // --- CAPTURA E PRÉ-VISUALIZAÇÃO (Heurística de Controle) ---
+        function takeSnapshot() {
             if (!appState.stream) return;
 
-            // 1. Feedback Visceral (Flash)
+            // Flash visual
             DOM.flash.style.opacity = '1';
-            setTimeout(() => { DOM.flash.style.opacity = '0'; DOM.flash.style.transition = 'opacity 0.5s ease-out'; }, 50);
-            setTimeout(() => { DOM.flash.style.transition = ''; }, 600);
+            setTimeout(() => { DOM.flash.style.opacity = '0'; DOM.flash.style.transition = 'opacity 0.4s'; }, 50);
+            setTimeout(() => { DOM.flash.style.transition = ''; }, 500);
 
-            // 2. Setup do Contexto Gráfico (Canvas 2D)
             const ctx = DOM.canvas.getContext('2d');
-            
-            // Forçamos a saída para uma proporção 9:16 (Story format padrão) para garantir consistência
             const targetWidth = 1080;
             const targetHeight = 1920;
             DOM.canvas.width = targetWidth;
             DOM.canvas.height = targetHeight;
 
-            // Preenchimento de fundo preto por segurança (caso o vídeo não preencha tudo)
-            ctx.fillStyle = '#000000';
+            ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, targetWidth, targetHeight);
 
-            // 3. Cálculo de Recorte da Câmera (Object-fit: cover via JavaScript)
-            // Precisamos desenhar o vídeo cortando as sobras para preencher o canvas 1080x1920
+            // Matemática de Crop Refinada (Object-fit matemático)
             const vWidth = DOM.video.videoWidth;
             const vHeight = DOM.video.videoHeight;
             const vRatio = vWidth / vHeight;
@@ -557,55 +488,63 @@
             let drawWidth, drawHeight, offsetX = 0, offsetY = 0;
 
             if (vRatio > tRatio) {
-                // Vídeo é mais largo que o target
                 drawHeight = targetHeight;
                 drawWidth = drawHeight * vRatio;
                 offsetX = (targetWidth - drawWidth) / 2;
             } else {
-                // Vídeo é mais estreito ou igual
                 drawWidth = targetWidth;
                 drawHeight = drawWidth / vRatio;
                 offsetY = (targetHeight - drawHeight) / 2;
             }
 
-            // 4. Tratamento de Espelhamento (Câmera Frontal)
             ctx.save();
             if (appState.facingMode === 'user') {
                 ctx.translate(targetWidth, 0);
                 ctx.scale(-1, 1);
             }
             
-            // Desenha a imagem da câmera
             ctx.drawImage(DOM.video, offsetX, offsetY, drawWidth, drawHeight);
-            ctx.restore(); // Restaura para não espelhar a moldura/textos
+            ctx.restore();
 
-            // 5. Compositing da Moldura
+            // Renderizar Moldura por cima
             const frameImg = new Image();
             frameImg.crossOrigin = "anonymous";
-            
             frameImg.onload = () => {
                 ctx.drawImage(frameImg, 0, 0, targetWidth, targetHeight);
-
-                // 6. Output Final (Download Automático)
-                const jpegData = DOM.canvas.toDataURL('image/jpeg', 0.95); // 95% Quality
-                triggerDownload(jpegData);
+                
+                // Salvar em variável e exibir tela de Preview
+                appState.currentPhotoDataUri = DOM.canvas.toDataURL('image/jpeg', 0.95);
+                showPreviewScreen();
             };
-
-            frameImg.onerror = () => {
-                alert("Ocorreu um erro ao processar a moldura gráfica.");
-            }
-
             frameImg.src = appState.frames[appState.activeIndex].uri;
         }
 
-        function triggerDownload(dataUri) {
-            const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+        function showPreviewScreen() {
+            DOM.previewImage.src = appState.currentPhotoDataUri;
+            DOM.previewScreen.classList.add('active');
+            // Pausar vídeo no fundo para economizar processamento
+            DOM.video.pause();
+        }
+
+        function discardPhoto() {
+            appState.currentPhotoDataUri = null;
+            DOM.previewImage.src = "";
+            DOM.previewScreen.classList.remove('active');
+            DOM.video.play(); // Retomar câmera
+        }
+
+        function downloadPhoto() {
+            if (!appState.currentPhotoDataUri) return;
+            
             const a = document.createElement('a');
-            a.download = `AriDeSa_DiaDasMaes_${timestamp}.jpg`;
-            a.href = dataUri;
+            a.download = `AriDeSa_DiaDasMaes_${Date.now()}.jpg`;
+            a.href = appState.currentPhotoDataUri;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+
+            // Após baixar, volta para a câmera
+            discardPhoto();
         }
     </script>
 </body>
