@@ -3,44 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dia das Mães | Colégio Ari de Sá</title>
+    <title>Dia das Mães | Ari de Sá</title>
     
-    <!-- Google Fonts para um visual profissional -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
         :root {
-            --ari-blue: #0056b3;
-            --ari-dark: #003d7a;
-            --ari-gold: #c5a059;
-            --ari-pink: #ffebf0;
+            --brand-blue: #0056b3;
+            --brand-gold: #d4af37;
         }
 
         body {
-            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            background-color: #0f172a;
             font-family: 'Montserrat', sans-serif;
+            color: #f8fafc;
             overflow: hidden;
-            height: 100vh;
+            height: 100dvh;
         }
 
-        .glass-header {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid var(--ari-blue);
-        }
-
-        #video-container {
+        /* Container da Câmera estilo iPhone */
+        .camera-viewport {
             position: relative;
             width: 100%;
-            max-width: 420px;
-            aspect-ratio: 3/4;
-            margin: 0 auto;
-            background: #1a1a1a;
-            border-radius: 24px;
+            height: 65%;
+            background: #000;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 86, 179, 0.2);
-            border: 4px solid white;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         video {
@@ -52,140 +43,122 @@
 
         video.rear { transform: scaleX(1); }
 
-        .frame-selector-container {
-            background: white;
-            border-radius: 32px 32px 0 0;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
-        }
-
-        .frame-item {
-            flex: 0 0 85px;
-            height: 110px;
-            border: 2px solid transparent;
-            border-radius: 16px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #f8fafc;
-            position: relative;
-        }
-
-        .frame-item.active {
-            border-color: var(--ari-blue);
-            background: var(--ari-pink);
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 86, 179, 0.1);
-        }
-
-        .capture-btn {
-            background: var(--ari-blue);
-            width: 76px;
-            height: 76px;
+        /* Botão de Captura Estilizado */
+        .shutter-btn {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            border: 4px solid white;
-            box-shadow: 0 0 0 4px var(--ari-blue);
-            transition: all 0.2s;
+            background: white;
+            padding: 5px;
+            border: 4px solid rgba(255,255,255,0.3);
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .capture-btn:active {
-            transform: scale(0.9);
-            box-shadow: 0 0 0 2px var(--ari-blue);
+        .shutter-btn:active {
+            transform: scale(0.85);
+            background: #e2e8f0;
         }
 
-        .floating-label {
-            font-family: 'Playfair Display', serif;
-            color: var(--ari-blue);
+        .shutter-inner {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
         }
 
-        /* Esconder scrollbar */
+        /* Seletor de Molduras Lateral */
+        .frame-chip {
+            flex: 0 0 70px;
+            height: 70px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            overflow: hidden;
+            background: #1e293b;
+            transition: all 0.3s;
+        }
+
+        .frame-chip.active {
+            border-color: var(--brand-blue);
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(0, 86, 179, 0.4);
+        }
+
+        .fancy-font { font-family: 'Dancing Script', cursive; }
+
+        .custom-frame-input {
+            display: none;
+        }
+
+        /* Scrollbar Invisível */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        #camera-fallback {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #2d3748;
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            z-index: 5;
-        }
     </style>
 </head>
 <body class="flex flex-col">
 
-    <!-- Header Elegante -->
-    <header class="glass-header p-4 flex items-center justify-between z-20">
-        <div class="flex flex-col">
-            <span class="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">Evento Especial</span>
-            <h1 class="floating-label text-xl">Mães Ari de Sá</h1>
+    <!-- Header Flutuante -->
+    <header class="absolute top-0 left-0 w-full p-6 flex justify-between items-center z-50 pointer-events-none">
+        <div class="bg-black/20 backdrop-blur-md p-3 rounded-2xl border border-white/10">
+            <h1 class="text-white text-xs font-bold tracking-tighter uppercase">Momento <span class="text-blue-400">Ari de Sá</span></h1>
         </div>
-        <img src="logo.png" alt="Logo Ari de Sá" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
+        <img src="logo.png" alt="Logo" class="h-8 object-contain pointer-events-auto" onerror="this.style.display='none'">
     </header>
 
-    <!-- Área da Câmera -->
-    <main class="flex-grow flex items-center justify-center p-6 relative">
-        <div id="video-container">
-            <!-- Fallback para quando a câmera não carrega -->
-            <div id="camera-fallback">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-4 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <p class="text-sm font-medium">Aguardando permissão da câmera...</p>
-                <p class="text-[10px] mt-2 opacity-70">Dica: Publique no GitHub Pages para funcionar via HTTPS.</p>
-            </div>
-            
-            <video id="video" autoplay playsinline muted></video>
-            <div id="overlay-container" class="absolute inset-0 pointer-events-none z-10"></div>
-            <div id="shutter" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-50 transition-opacity"></div>
+    <!-- Câmera -->
+    <section class="camera-viewport relative">
+        <video id="video" autoplay playsinline muted></video>
+        <div id="overlay-container" class="absolute inset-0 pointer-events-none z-10"></div>
+        
+        <!-- Alerta de Erro -->
+        <div id="camera-error" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900 z-40 hidden p-10 text-center">
+            <div class="bg-red-500/20 p-4 rounded-full mb-4">⚠️</div>
+            <p class="text-sm font-semibold">Câmera não encontrada</p>
+            <p class="text-xs text-slate-400 mt-2">Certifique-se de usar HTTPS e dar as permissões necessárias.</p>
+        </div>
+    </section>
+
+    <!-- Controles Inferiores -->
+    <main class="flex-grow flex flex-col justify-between p-6 bg-slate-900">
+        
+        <!-- Lista de Molduras -->
+        <div class="flex items-center gap-4 overflow-x-auto no-scrollbar py-2" id="frame-list">
+            <!-- Botão Adicionar Custom -->
+            <label class="frame-chip flex flex-col items-center justify-center cursor-pointer border-dashed border-slate-700 bg-transparent hover:bg-white/5">
+                <input type="file" class="custom-frame-input" id="add-frame" accept="image/png">
+                <span class="text-xl">+</span>
+                <span class="text-[8px] font-bold">MOLDURA</span>
+            </label>
+        </div>
+
+        <!-- Barra de Ações Principal -->
+        <div class="flex items-center justify-between mt-4">
+            <!-- Inverter Câmera -->
+            <button id="switch-camera" class="w-12 h-12 flex items-center justify-center rounded-full bg-slate-800 text-white active:scale-90 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            </button>
+
+            <!-- BOTÃO DE TIRAR FOTO -->
+            <button id="capture" class="shutter-btn">
+                <div class="shutter-inner"></div>
+            </button>
+
+            <div class="w-12 h-12"></div> <!-- Espaçador -->
         </div>
     </main>
 
-    <!-- Painel de Controle Inferior -->
-    <footer class="frame-selector-container p-6 pb-10">
-        <div class="mb-4 flex items-center justify-between">
-            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Escolha sua moldura</span>
-            <span id="frame-counter" class="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded-full font-bold">1 / 7</span>
-        </div>
-        
-        <!-- Seleção de Molduras -->
-        <div class="flex overflow-x-auto space-x-4 mb-8 no-scrollbar py-2" id="frame-selector"></div>
-
-        <div class="flex items-center justify-between px-4">
-            <button id="switch-camera" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-gray-50 text-blue-900 border border-gray-100 shadow-sm active:bg-blue-50">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-            </button>
-
-            <button id="capture" class="capture-btn flex items-center justify-center">
-                <div class="w-10 h-10 rounded-full border-2 border-white/30"></div>
-            </button>
-
-            <div class="w-12 h-12"></div> <!-- Equilíbrio visual -->
-        </div>
-    </footer>
-
-    <!-- Modal de Resultado -->
-    <div id="modal" class="fixed inset-0 bg-blue-950/95 z-[100] hidden flex flex-col items-center justify-center p-8 backdrop-blur-md">
-        <div class="relative w-full max-w-sm">
-            <div class="absolute -top-12 left-0 right-0 text-center">
-                <h2 class="floating-label text-2xl text-white">Ficou lindo!</h2>
-            </div>
-            <img id="photo-preview" class="w-full rounded-3xl shadow-2xl border-[6px] border-white" src="" alt="Sua Foto">
-            <button id="close-modal" class="absolute -top-4 -right-4 bg-white text-blue-900 rounded-full p-3 shadow-xl hover:scale-110 transition-transform">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    <!-- Modal de Resultado (Foto Pronta) -->
+    <div id="modal" class="fixed inset-0 bg-black/95 z-[100] hidden flex flex-col items-center justify-center p-6 backdrop-blur-xl">
+        <div class="relative w-full max-w-sm mb-8">
+            <img id="photo-preview" class="w-full rounded-3xl shadow-2xl border-2 border-white/20" src="" alt="Sua Foto">
+            <button id="close-modal" class="absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-2 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
         </div>
         
-        <div class="mt-8 w-full max-w-xs space-y-3">
-            <button id="download-btn" class="w-full bg-white text-blue-900 font-bold py-4 rounded-2xl shadow-lg flex items-center justify-center gap-3 active:scale-95 transition-all">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                SALVAR NA GALERIA
-            </button>
-            <p class="text-white/60 text-[10px] text-center">Ou pressione e segure a imagem para salvar</p>
-        </div>
+        <button id="download-btn" class="w-full max-w-xs bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-5 rounded-2xl shadow-xl flex items-center justify-center gap-3 transition-all active:scale-95">
+            BAIXAR FOTO
+        </button>
     </div>
 
     <canvas id="canvas" style="display:none;"></canvas>
@@ -194,144 +167,123 @@
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
         const overlayContainer = document.getElementById('overlay-container');
-        const frameSelector = document.getElementById('frame-selector');
+        const frameList = document.getElementById('frame-list');
         const modal = document.getElementById('modal');
         const photoPreview = document.getElementById('photo-preview');
-        const fallback = document.getElementById('camera-fallback');
+        const cameraError = document.getElementById('camera-error');
 
         let currentStream;
         let useFrontCamera = true;
         let selectedFrameIndex = 0;
+        let customFrames = [];
 
-        const COLORS = { blue: '#0056b3', gold: '#c5a059', dark: '#003d7a', pink: '#ff8da1' };
+        const COLORS = { blue: '#0056b3', gold: '#c5a059', pink: '#ff6b6b' };
         const LOGO = "logo.png";
 
-        // Molduras com design melhorado (SVG)
-        const FRAMES = [
-            { 
-                name: "Premium", 
-                svg: `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="320" width="300" height="80" fill="${COLORS.blue}" />
-                    <rect x="0" y="320" width="300" height="4" fill="${COLORS.gold}" />
-                    <text x="150" y="360" font-family="Montserrat" font-weight="700" font-size="16" fill="white" text-anchor="middle" letter-spacing="2">DIA DAS MÃES</text>
-                    <text x="150" y="382" font-family="Montserrat" font-weight="400" font-size="10" fill="white" text-anchor="middle" opacity="0.7">COLÉGIO ARI DE SÁ CAVALCANTE</text>
-                    <image href="${LOGO}" x="135" y="285" height="30" width="30" />
-                </svg>`
-            },
-            { 
-                name: "Floral", 
-                svg: `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="0" cy="0" r="60" fill="${COLORS.blue}" opacity="0.1" />
-                    <circle cx="300" cy="0" r="40" fill="${COLORS.blue}" opacity="0.1" />
-                    <path d="M0 350 L300 350 L300 400 L0 400 Z" fill="white" />
-                    <text x="150" y="380" font-family="Playfair Display" font-style="italic" font-weight="700" font-size="18" fill="${COLORS.blue}" text-anchor="middle">Amor que educa e floresce</text>
-                    <image href="${LOGO}" x="250" y="360" height="30" width="40" />
-                </svg>`
-            },
-            { 
-                name: "Afeto", 
-                svg: `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 10 L60 10 M10 10 L10 60" stroke="${COLORS.blue}" stroke-width="4" fill="none" />
-                    <path d="M240 390 L290 390 M290 390 L290 340" stroke="${COLORS.blue}" stroke-width="4" fill="none" />
-                    <rect x="70" y="360" width="160" height="30" rx="15" fill="${COLORS.blue}" />
-                    <text x="150" y="380" font-family="Montserrat" font-weight="700" font-size="10" fill="white" text-anchor="middle">MINHA MÃE, MEU ORGULHO</text>
-                    <image href="${LOGO}" x="10" y="365" height="25" width="40" />
-                </svg>`
-            },
-            { 
-                name: "Insta", 
-                svg: `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="0" width="300" height="400" fill="none" stroke="white" stroke-width="40" />
-                    <rect x="20" y="340" width="260" height="40" fill="white" />
-                    <text x="40" y="365" font-family="Montserrat" font-weight="700" font-size="14" fill="${COLORS.blue}" text-anchor="start">@colegioaridesa</text>
-                    <path d="M240 360 L250 370 L265 355" stroke="${COLORS.pink}" stroke-width="3" fill="none" />
-                </svg>`
-            },
-            { 
-                name: "Classic", 
-                svg: `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="15" y="15" width="270" height="370" fill="none" stroke="${COLORS.gold}" stroke-width="2" rx="12" />
-                    <rect x="100" y="10" width="100" height="30" fill="#f0f4f8" />
-                    <image href="${LOGO}" x="125" y="5" height="30" width="50" />
-                    <text x="150" y="375" font-family="Playfair Display" font-weight="700" font-size="14" fill="${COLORS.dark}" text-anchor="middle">Dia das Mães 2024</text>
-                </svg>`
-            },
-            { 
-                name: "Modern", 
-                svg: `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="0" width="300" height="50" fill="rgba(0,86,179,0.8)" />
-                    <text x="20" y="32" font-family="Montserrat" font-weight="700" font-size="14" fill="white">ARI DE SÁ</text>
-                    <circle cx="270" cy="25" r="15" fill="white" />
-                    <image href="${LOGO}" x="260" y="15" height="20" width="20" />
-                    <rect x="20" y="360" width="120" height="20" fill="${COLORS.pink}" />
-                    <text x="25" y="375" font-family="Montserrat" font-weight="700" font-size="10" fill="${COLORS.dark}">TE AMO, MÃE!</text>
-                </svg>`
-            },
+        // MOLDURAS ESTILIZADAS (SVG)
+        const PRESET_FRAMES = [
             { 
                 name: "Minimal", 
                 svg: `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="20" y1="380" x2="280" y2="380" stroke="${COLORS.blue}" stroke-width="1" />
-                    <text x="150" y="370" font-family="Montserrat" font-weight="400" font-size="8" fill="${COLORS.blue}" text-anchor="middle" letter-spacing="3">COLÉGIO ARI DE SÁ CAVALCANTE</text>
+                    <rect x="0" y="340" width="300" height="60" fill="${COLORS.blue}" />
+                    <text x="150" y="375" font-family="Montserrat" font-weight="800" font-size="16" fill="white" text-anchor="middle" letter-spacing="2">DIA DAS MÃES</text>
+                    <image href="${LOGO}" x="135" y="315" height="30" width="30" />
+                </svg>`
+            },
+            { 
+                name: "Love", 
+                svg: `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M150 380 Q100 340 100 300 A30 30 0 0 1 160 300 A30 30 0 0 1 220 300 Q220 340 150 380" fill="${COLORS.pink}" opacity="0.8" />
+                    <text x="150" y="385" font-family="Dancing Script" font-size="22" fill="white" text-anchor="middle">Te amo, Mamãe!</text>
+                    <rect x="0" y="0" width="300" height="10" fill="${COLORS.blue}" />
+                </svg>`
+            },
+            { 
+                name: "Artística", 
+                svg: `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="15" y="15" width="270" height="370" fill="none" stroke="${COLORS.gold}" stroke-width="4" rx="20" />
+                    <circle cx="20" cy="20" r="10" fill="${COLORS.blue}" />
+                    <circle cx="280" cy="380" r="10" fill="${COLORS.blue}" />
+                    <text x="150" y="375" font-family="Montserrat" font-weight="600" font-size="10" fill="${COLORS.gold}" text-anchor="middle">ARI DE SÁ - 2024</text>
+                </svg>`
+            },
+            { 
+                name: "Polaroid", 
+                svg: `<svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="0" width="300" height="400" fill="none" stroke="white" stroke-width="30" />
+                    <rect x="0" y="320" width="300" height="80" fill="white" />
+                    <text x="150" y="365" font-family="Dancing Script" font-size="24" fill="#333" text-anchor="middle">Nossa melhor foto</text>
                 </svg>`
             }
         ];
 
         async function startCamera() {
             if (currentStream) currentStream.getTracks().forEach(track => track.stop());
-            
             try {
-                const constraints = {
-                    video: { 
-                        facingMode: useFrontCamera ? "user" : "environment",
-                        width: { ideal: 1280 },
-                        height: { ideal: 960 }
-                    }
-                };
-                currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+                currentStream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: useFrontCamera ? "user" : "environment" }
+                });
                 video.srcObject = currentStream;
-                video.onloadedmetadata = () => {
-                    video.play();
-                    fallback.style.display = 'none';
-                };
                 video.className = useFrontCamera ? "" : "rear";
+                cameraError.classList.add('hidden');
             } catch (err) {
-                console.error(err);
-                fallback.innerHTML = `<p class="text-red-400 font-bold">Erro ao acessar câmera</p><p class="text-xs mt-2 px-4">Certifique-se de estar usando HTTPS e que deu permissão no navegador.</p>`;
+                cameraError.classList.remove('hidden');
             }
         }
 
-        function createFrameSelector() {
-            frameSelector.innerHTML = '';
-            FRAMES.forEach((frame, index) => {
+        function renderFrameSelectors() {
+            const allFrames = [...PRESET_FRAMES, ...customFrames];
+            frameList.querySelectorAll('.frame-chip:not([label])').forEach(el => el.remove());
+
+            allFrames.forEach((frame, index) => {
                 const div = document.createElement('div');
-                div.className = `frame-item ${index === selectedFrameIndex ? 'active' : ''} flex-shrink-0 cursor-pointer p-2`;
-                div.innerHTML = `
-                    <div class="w-full h-full relative overflow-hidden rounded-lg flex flex-col items-center">
-                        <div class="scale-[0.25] origin-top absolute top-2">${frame.svg}</div>
-                        <span class="mt-auto text-[8px] font-bold ari-blue pb-1">${frame.name}</span>
-                    </div>
-                `;
+                div.className = `frame-chip ${index === selectedFrameIndex ? 'active' : ''} flex-shrink-0 cursor-pointer relative`;
+                
+                if (frame.svg) {
+                    div.innerHTML = `<div class="scale-[0.2] absolute -top-24 -left-28">${frame.svg}</div>`;
+                } else if (frame.imageUrl) {
+                    div.innerHTML = `<img src="${frame.imageUrl}" class="w-full h-full object-cover">`;
+                }
+
                 div.onclick = () => selectFrame(index);
-                frameSelector.appendChild(div);
+                frameList.insertBefore(div, frameList.lastElementChild);
             });
         }
 
         function selectFrame(index) {
             selectedFrameIndex = index;
-            document.querySelectorAll('.frame-item').forEach((el, i) => el.classList.toggle('active', i === index));
-            overlayContainer.innerHTML = FRAMES[index].svg;
-            document.getElementById('frame-counter').innerText = `${index + 1} / ${FRAMES.length}`;
+            document.querySelectorAll('.frame-chip').forEach((el, i) => el.classList.toggle('active', i === index));
+            
+            const allFrames = [...PRESET_FRAMES, ...customFrames];
+            const current = allFrames[index];
+
+            if (current.svg) {
+                overlayContainer.innerHTML = current.svg;
+            } else {
+                overlayContainer.innerHTML = `<img src="${current.imageUrl}" class="w-full h-full object-contain">`;
+            }
         }
 
-        async function capturePhoto() {
-            const shutter = document.getElementById('shutter');
-            shutter.classList.replace('opacity-0', 'opacity-100');
-            setTimeout(() => shutter.classList.replace('opacity-100', 'opacity-0'), 150);
+        // Lógica para Adicionar Moldura Própria
+        document.getElementById('add-frame').onchange = function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    customFrames.push({ name: "Custom", imageUrl: event.target.result });
+                    renderFrameSelectors();
+                    selectFrame(PRESET_FRAMES.length + customFrames.length - 1);
+                };
+                reader.readAsDataURL(file);
+            }
+        };
 
+        async function capturePhoto() {
             canvas.width = 1080;
             canvas.height = 1440;
             const ctx = canvas.getContext('2d');
 
+            // 1. Desenhar Câmera
             ctx.save();
             if (useFrontCamera) { ctx.translate(canvas.width, 0); ctx.scale(-1, 1); }
             
@@ -352,19 +304,33 @@
             ctx.drawImage(video, ox, oy, dw, dh);
             ctx.restore();
 
-            // Renderizar Moldura no Canvas
-            const svgData = new XMLSerializer().serializeToString(overlayContainer.querySelector('svg'));
-            const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
-            const url = URL.createObjectURL(svgBlob);
-            const img = new Image();
+            // 2. Desenhar Moldura
+            const currentFrame = [...PRESET_FRAMES, ...customFrames][selectedFrameIndex];
             
-            img.onload = () => {
-                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                photoPreview.src = canvas.toDataURL('image/jpeg', 0.9);
-                modal.classList.remove('hidden');
-                URL.revokeObjectURL(url);
-            };
-            img.src = url;
+            if (currentFrame.svg) {
+                const svgData = new XMLSerializer().serializeToString(overlayContainer.querySelector('svg'));
+                const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+                const url = URL.createObjectURL(svgBlob);
+                const img = new Image();
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    showResult();
+                    URL.revokeObjectURL(url);
+                };
+                img.src = url;
+            } else {
+                const img = new Image();
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    showResult();
+                };
+                img.src = currentFrame.imageUrl;
+            }
+        }
+
+        function showResult() {
+            photoPreview.src = canvas.toDataURL('image/jpeg', 0.9);
+            modal.classList.remove('hidden');
         }
 
         document.getElementById('capture').onclick = capturePhoto;
@@ -372,14 +338,14 @@
         document.getElementById('close-modal').onclick = () => modal.classList.add('hidden');
         document.getElementById('download-btn').onclick = () => {
             const link = document.createElement('a');
-            link.download = `AriDeSa_Mae_2024_${Date.now()}.jpg`;
+            link.download = `Mae_AriDeSa_${Date.now()}.jpg`;
             link.href = photoPreview.src;
             link.click();
         };
 
         window.onload = () => { 
             startCamera(); 
-            createFrameSelector(); 
+            renderFrameSelectors(); 
             selectFrame(0); 
         };
     </script>
