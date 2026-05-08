@@ -157,7 +157,7 @@
             <text x="540" y="1840" font-family="system-ui, sans-serif" font-size="35" font-weight="700" fill="#00529b" text-anchor="middle" letter-spacing="2">ARI DE SÁ</text>
         </svg>
 
-        <!-- 2. Envelope de Corações (Baseado no anexo image_1b56f5.png) -->
+        <!-- 2. Envelope de Corações (Geometria Subtrativa - Buraco Central Transparente) -->
         <svg id="svg-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
             <defs>
                 <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -166,10 +166,10 @@
                 <filter id="shadow2"><feDropShadow dx="2" dy="5" stdDeviation="5" flood-color="#000" flood-opacity="0.3"/></filter>
                 <g id="solidHeart"><path d="M0,20 C-20,0 -40,-20 -20,-40 C-10,-50 10,-30 20,-20 C30,-30 50,-50 60,-40 C80,-20 60,0 40,20 L20,40 Z" fill="#900C3F"/></g>
             </defs>
-            <rect x="0" y="0" width="1080" height="1920" fill="url(#bgGrad2)"/>
-            <!-- Área da Fotografia Transparente no centro -->
-            <path d="M0,0 L1080,0 L1080,1920 L0,1920 Z M100,200 L100,1500 L980,1500 L980,200 Z" fill="#ffffff" fill-opacity="0.2"/>
-            <rect x="90" y="190" width="900" height="1320" fill="none" stroke="#fff" stroke-width="20" rx="10"/>
+            
+            <!-- APLICAÇÃO DO EVEN-ODD: Desenha a moldura sólida e vaza o retângulo (100,180) ao (980,1400) -->
+            <path d="M0,0 H1080 V1920 H0 Z M100,180 V1400 H980 V180 Z" fill="url(#bgGrad2)" fill-rule="evenodd"/>
+            <rect x="90" y="170" width="900" height="1240" fill="none" stroke="#fff" stroke-width="20" rx="10"/>
             
             <!-- Corações Periféricos -->
             <use href="#solidHeart" x="900" y="400" transform="scale(1.5) rotate(15)"/>
@@ -193,15 +193,15 @@
             <use href="#solidHeart" x="800" y="1700" transform="scale(1.4) rotate(15)"/>
         </svg>
 
-        <!-- 3. Arabescos e Corações (Baseado no anexo image_1b53b9.jpg) -->
+        <!-- 3. Arabescos e Corações (Fundo puramente transparente) -->
         <svg id="svg-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
             <defs>
                 <g id="arabHeart">
                     <path d="M0,15 C-15,0 -30,-15 -15,-30 C-5,-40 10,-20 15,-15 C20,-20 35,-40 45,-30 C60,-15 45,0 30,15 L15,30 Z" fill="#d00000"/>
                 </g>
             </defs>
-            <rect x="0" y="0" width="1080" height="1920" fill="#ffffff" stroke="#ffb3c6" stroke-width="30"/>
-            <rect x="50" y="50" width="980" height="1820" fill="none"/>
+            <!-- Removido o <rect fill="#ffffff"> para permitir a passagem ótica -->
+            <rect x="0" y="0" width="1080" height="1920" fill="none" stroke="#ffb3c6" stroke-width="60"/>
             
             <!-- Linhas Onduladas Vetoriais (Esquerda) -->
             <path d="M 50,50 C 150,150 -50,250 50,400 S 150,600 50,750 S -50,900 50,1050 S 150,1200 50,1350 S -50,1500 50,1650 S 150,1800 50,1870" fill="none" stroke="#d00000" stroke-width="4"/>
@@ -223,26 +223,21 @@
             <use href="#arabHeart" x="930" y="1100" transform="scale(0.9)"/>
             <use href="#arabHeart" x="970" y="1600" transform="scale(2)"/>
             
-            <use href="#arabHeart" x="400" y="50" transform="scale(1.3)"/>
-            <use href="#arabHeart" x="700" y="80" transform="scale(0.8)"/>
-            <use href="#arabHeart" x="300" y="1850" transform="scale(1.5)"/>
-            <use href="#arabHeart" x="800" y="1840" transform="scale(1.2)"/>
-
             <rect x="240" y="1750" width="600" height="120" fill="rgba(255,255,255,0.9)" rx="60"/>
             <text x="540" y="1825" font-family="system-ui, sans-serif" font-weight="800" font-size="45" fill="#00529b" text-anchor="middle">COLÉGIO ARI DE SÁ</text>
         </svg>
 
-        <!-- 4. Pórtico/Arco com Coração Gigante (Baseado no anexo image_1b533d.jpg) -->
+        <!-- 4. Pórtico/Arco (Geometria Topológica Curva com Buraco Arquitetónico) -->
         <svg id="svg-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
             <defs>
                 <filter id="archShadow"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity="0.2"/></filter>
             </defs>
-            <!-- Fundo base Rosa -->
-            <rect x="0" y="0" width="1080" height="1920" fill="#f8bbd0"/>
-            <!-- O Recorte em Arco para o vídeo -->
-            <path d="M0,0 L1080,0 L1080,1920 L0,1920 Z M 60,700 L 60,1860 L 1020,1860 L 1020,700 A 480,480 0 0,0 60,700 Z" fill="#ffffff" fill-opacity="1" stroke="#ff8a80" stroke-width="15"/>
             
-            <!-- Coração Gigante no Topo (Amarelo Claro/Rosa) -->
+            <!-- APLICAÇÃO DO EVEN-ODD: Desenha a caixa inteira Rosa e extrai um Arco Perfeito no centro -->
+            <path d="M0,0 H1080 V1920 H0 Z M 80,1860 H 1000 V 700 A 460 460 0 0 0 80 700 Z" fill="#f8bbd0" fill-rule="evenodd"/>
+            <path d="M 80,1860 H 1000 V 700 A 460 460 0 0 0 80 700 Z" fill="none" stroke="#ff8a80" stroke-width="15"/>
+            
+            <!-- Coração Gigante no Topo -->
             <g transform="translate(540, 250) scale(4)" filter="url(#archShadow)">
                 <path d="M0,35 C-35,0 -70,-35 -35,-70 C-15,-90 15,-60 25,-45 C35,-60 65,-90 85,-70 C120,-35 85,0 50,35 L25,60 Z" fill="#fff9c4" stroke="#ffffff" stroke-width="3"/>
             </g>
@@ -258,27 +253,23 @@
             <text x="540" y="1800" font-family="system-ui, sans-serif" font-size="40" font-weight="800" fill="#00529b" opacity="0.8" text-anchor="middle">ARI DE SÁ CAVALCANTE</text>
         </svg>
 
-        <!-- 5. Estilo Comic Pop-Art "Super Mãe" (Baseado no anexo image_1b4fd0.jpg - SEM VERDE) -->
+        <!-- 5. Estilo Comic Pop-Art (Perfuração do Padrão Halftone) -->
         <svg id="svg-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
             <defs>
                 <pattern id="dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
                     <circle cx="20" cy="20" r="4" fill="#00529b" opacity="0.1"/>
                 </pattern>
-                <!-- Flor Comic -->
                 <g id="comicFlower">
                     <path d="M0,0 Q10,-30 20,0 Q50,10 20,20 Q10,50 0,20 Q-30,10 0,0 Z" fill="#ffb3c6" stroke="#000" stroke-width="4"/>
                     <circle cx="10" cy="10" r="6" fill="#FFD700" stroke="#000" stroke-width="3"/>
                 </g>
-                <g id="comicLeaf"> <!-- Folha convertida para Azul Ari em vez de verde -->
-                    <path d="M0,0 C15,-15 30,0 20,20 C5,5 -15,-5 0,0 Z" fill="#00a8e8" stroke="#000" stroke-width="4"/>
-                </g>
             </defs>
-            <rect x="0" y="0" width="1080" height="1920" fill="#ffffff"/>
-            <rect x="0" y="0" width="1080" height="1920" fill="url(#dots)"/>
             
-            <path d="M0,0 L1080,0 L1080,1920 L0,1920 Z M80,450 L80,1450 L1000,1450 L1000,450 Z" fill="#ffffff" fill-opacity="1"/>
+            <!-- APLICAÇÃO DO EVEN-ODD: Fundo branco e Textura perfurados com precisão cirúrgica -->
+            <path d="M0,0 H1080 V1920 H0 Z M 80,450 H 1000 V 1450 H 80 Z" fill="#ffffff" fill-rule="evenodd"/>
+            <path d="M0,0 H1080 V1920 H0 Z M 80,450 H 1000 V 1450 H 80 Z" fill="url(#dots)" fill-rule="evenodd"/>
             
-            <!-- Bordas interiores duplas (Cyan e Magenta) -->
+            <!-- Bordas interiores duplas da área de fotografia -->
             <rect x="70" y="440" width="940" height="1020" fill="none" stroke="#00d2ff" stroke-width="20"/>
             <rect x="90" y="460" width="900" height="980" fill="none" stroke="#e91e63" stroke-width="15"/>
 
@@ -306,14 +297,13 @@
             <use href="#comicFlower" x="900" y="1750" transform="scale(1.8)"/>
         </svg>
 
-        <!-- 6. Grelha Margaridas Polaroid (Baseado no anexo image_1b4fb1.png - SEM VERDE) -->
+        <!-- 6. Grelha Margaridas Polaroid (Vazamento do Padrão Axonométrico) -->
         <svg id="svg-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
             <defs>
                 <pattern id="gridPink" width="80" height="80" patternUnits="userSpaceOnUse">
                     <rect width="80" height="80" fill="#ffd1dc" />
                     <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#f48fb1" stroke-width="2" />
                 </pattern>
-                <!-- Margarida (Folhas adaptadas para cinza azulado em vez de verde) -->
                 <g id="daisy" filter="drop-shadow(2px 4px 6px rgba(0,0,0,0.3))">
                     <path d="M0,50 L-20,100 L-5,110 Z" fill="#64748b" stroke="#000" stroke-width="3"/>
                     <path d="M0,50 L20,90 L5,100 Z" fill="#64748b" stroke="#000" stroke-width="3"/>
@@ -332,10 +322,9 @@
                 </g>
             </defs>
 
-            <rect x="0" y="0" width="1080" height="1920" fill="url(#gridPink)" stroke="#000" stroke-width="30"/>
-            <!-- Quadro negro interior para contraste Polaroid -->
+            <!-- APLICAÇÃO DO EVEN-ODD: Extração central para garantir a janela ótica -->
+            <path d="M0,0 H1080 V1920 H0 Z M 100,170 H 980 V 1330 H 100 Z" fill="url(#gridPink)" stroke="#000" stroke-width="30" fill-rule="evenodd"/>
             <rect x="80" y="150" width="920" height="1200" fill="none" stroke="#000" stroke-width="40"/>
-            <path d="M0,0 L1080,0 L1080,1920 L0,1920 Z M100,170 L100,1330 L980,1330 L980,170 Z" fill="#ffffff" fill-opacity="0"/>
             
             <use href="#daisy" x="180" y="150" transform="scale(1.5)"/>
             <use href="#daisy" x="880" y="1300" transform="scale(2)"/>
